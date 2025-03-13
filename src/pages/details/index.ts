@@ -1,0 +1,1 @@
+export { DetailsPageAsync as DetailsPage } from "./ui/details.async";

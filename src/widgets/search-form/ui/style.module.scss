@@ -1,0 +1,53 @@
+.wrapper {
+  margin: 6px 16px;
+}
+.title {
+  padding: 16px 24px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+}
+.container {
+  padding: 8px 12px;
+  background-color: rgba(247, 247, 248, 1);
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+.leftside {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.icon {
+  height: 24px;
+  width: 24px;
+}
+
+.input {
+  &::placeholder {
+    font-weight: 500;
+    font-size: 15px;
+    color: rgba(195, 195, 198, 1);
+  }
+  &:focus {
+    caret-color: rgba(101, 52, 255, 1);
+  }
+  &:focus::-webkit-input-placeholder {
+    color: transparent;
+  }
+
+  &:focus::-moz-placeholder {
+    color: transparent;
+  }
+
+  &:focus:-moz-placeholder {
+    color: transparent;
+  }
+
+  &:focus:-ms-input-placeholder {
+    color: transparent;
+  }
+}
