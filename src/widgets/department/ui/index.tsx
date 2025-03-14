@@ -1,20 +1,21 @@
+import { useState } from "react";
 import { departments } from "../../../shared/assets/constants";
 import { useAppDispatch } from "../../../shared/hooks/use-app-dispatch";
-import { useAppSelector } from "../../../shared/hooks/use-app-selector";
 import { departmentActions } from "../../../store/deprtment/slice/department-slice";
 import { DepartmentFilter } from "../../../store/deprtment/type/department-type";
 import cls from "./style.module.scss";
 
 export const Department: React.FC = () => {
+  const [selected, setSelected] = useState(0);
   const dispatch = useAppDispatch();
-  const type = useAppSelector((state) => state.department.department);
 
   return (
     <div className={cls.list}>
       {departments.map((item, idx) => (
         <div
           key={idx}
-          onClick={() =>
+          onClick={() =>{
+            setSelected(idx);
             item === "Все"
               ? dispatch(departmentActions.department(DepartmentFilter.all))
               : item === "Designers"
@@ -31,22 +32,9 @@ export const Department: React.FC = () => {
               ? dispatch(departmentActions.department(DepartmentFilter.ios))
               : item === "Android"
               ? dispatch(departmentActions.department(DepartmentFilter.android))
-              : ""
+              : ""}
           }
-          className={`${cls.item} ${
-            item === "Все" && type === "all"
-              ? cls.active
-              : item === "Android" && type === "android"
-              ? cls.active
-              : item === "iOS" && type === "ios"
-              ? cls.active
-              : item === "Designers" && type === "design"
-              ? cls.active
-              : item === "Managers" && type === "management"
-              ? cls.active
-              : item === "Analysts" && type === "analytics"
-              ? cls.active
-              : ""
+          className={`${cls.item} ${selected === idx ? cls.active : ''
           }`}
         >
           {item.toString()}

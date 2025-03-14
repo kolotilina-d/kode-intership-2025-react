@@ -1,32 +1,54 @@
+import { useEffect, useState } from "react";
+import { closeIcon } from "../../../shared/assets/icons";
 import { useAppDispatch } from "../../../shared/hooks/use-app-dispatch";
 import { Overlay } from "../../../shared/ui/overlay";
 import { modalsActions } from "../../../store/modals/slice/modal-slice";
+import { searchValueActions } from "../../../store/searchValue/slice/searchValue-slice";
 import cls from "./style.module.scss";
+import { useAppSelector } from "../../../shared/hooks/use-app-selector";
 
 interface IProps {}
 export const SortModal: React.FC<IProps> = () => {
+  const [selected, setSelected] = useState(0);
+  const list = ["По алфавиту", "По дню рождения"];
   const dispatch = useAppDispatch();
+  const filter= useAppSelector(state=> state.searchValue.selectedFilter);
 
   const callbacks = {
     onCloseModal: () => {
       dispatch(modalsActions.closeModal());
     },
   };
-  
+  const handleChoise = (item: string, idx: number) => {
+    dispatch(searchValueActions.setSelectedFilter(item));
+
+    dispatch(modalsActions.closeModal());
+  };
+  useEffect(()=> {
+    filter === "По дню рождения" ? setSelected(1): setSelected(0)
+  }, [filter])
+
   return (
     <Overlay onClose={callbacks.onCloseModal}>
       <div className={cls.container}>
         <button onClick={callbacks.onCloseModal}>
-          <img src={close} alt="close" className={cls.close} />
+          <img src={closeIcon} alt="close" className={cls.close} />
         </button>
         <div className={cls.wrapper}>
-          <div className={cls.line}></div>
-          <h2 className={cls.title}>You have claimed:</h2>
-          <p className={cls.subtitle}>{}</p>
+          <h2 className={cls.title}>Сортировка</h2>
+          <div className={cls.btns}>
+            {list.map((item, idx) => (
+              <button
+                key={item}
+                className={`${cls.btn} ${selected === idx ? cls.active : cls.inactive}`}
+                onClick={(idx) => handleChoise(item, Number(idx))}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
         </div>
-        <button className={cls.btn} onClick={callbacks.onCloseModal}></button>
       </div>
     </Overlay>
   );
 };
-
