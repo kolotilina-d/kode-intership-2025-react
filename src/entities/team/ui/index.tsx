@@ -1,19 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useAppDispatch } from "../../../shared/hooks/use-app-dispatch";
 import { useAppSelector } from "../../../shared/hooks/use-app-selector";
 import { loadTeam } from "../../../store/team/services/load-team";
 import { IUser } from "../../../store/team/types/team-types";
-import { User } from "../../user";
 import { Skeleton } from "../../../widgets/sceleton";
+import { User } from "../../user";
+
 import cls from "./style.module.scss";
+import { NotFound } from "../../../shared/ui/not-found";
 
 export const Team: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [noResults, setNoResults] = useState(false);
   const dispatch = useAppDispatch();
   const team = useAppSelector((state) => state.team.team.items);
   const type = useAppSelector((state) => state.department.department);
   const query = useAppSelector((state) => state.searchValue.searchValue);
-  const filter = useAppSelector((state) => state.searchValue.searchFilter);
+  const sort = useAppSelector((state) => state.searchValue.selectedFilter);
 
   useEffect(() => {
     dispatch(loadTeam({ type }));
@@ -23,50 +26,52 @@ export const Team: React.FC = () => {
     if (team !== undefined) setIsLoading(true);
   }, [team]);
 
-  const filteredTeam = team
-    ?.filter((user: IUser) => {
-      if (
-        user.lastName.toLowerCase().includes(query.toLowerCase()) ||
-        user.firstName.toLowerCase().includes(query.toLowerCase())
-      ) {
-        return true;
+  const filteredAndSortedTeam = useMemo(() => {
+    if (!team) return [];
+
+    const filteredTeam = team.filter((user: IUser) => {
+      const name =
+        `${user.firstName} ${user.lastName} ${user.userTag}`.toLowerCase();
+      return name.includes(query.toLowerCase());
+    });
+
+    const sortedTeam = filteredTeam.sort(
+      (
+        a: { birthday: string | number | Date; firstName: string },
+        b: { birthday: string | number | Date; firstName: any }
+      ) => {
+        switch (sort) {
+          case "По дню рождения":
+            return (
+              new Date(a.birthday).getTime() - new Date(b.birthday).getTime()
+            );
+          case "По алфавиту":
+            return a.firstName.localeCompare(b.firstName);
+          default:
+            return 0;
+        }
       }
-      return false;
-    })
-    .map((user: IUser) => <User key={user.id} user={user} />);
+    );
+
+    return sortedTeam;
+  }, [team, query, sort]);
 
   useEffect(() => {
-    if (filter === "По алфавиту") {
-      filteredTeam.sort(function (a:IUser, b:IUser) {
-        if (a.lastName > b.lastName) {
-          return 1;
-        }
-        if (a.lastName > b.lastName) {
-          return -1;
-        }
-        return 0;
-      });
-      console.log('dkdfgg')
-    } else if (filter === "По дню рождения") {
-      filteredTeam.sort(function (a:IUser, b:IUser) {
-        if (a.birthday > b.birthday) {
-          return 1;
-        }
-        if (a.birthday > b.birthday) {
-          return -1;
-        }
-        return 0;
-      });
-    }
-    console.log(filteredTeam);
-    return filteredTeam
-  }, [filter]);
+    setNoResults(isLoading && filteredAndSortedTeam.length === 0);
+  }, [filteredAndSortedTeam, isLoading]);
 
   return (
     <div className={cls.list}>
-      {isLoading
-        ? filteredTeam
-        : [...new Array(6)].map((_, idx) => <Skeleton key={idx} />)}
+      {isLoading ? (
+        <>
+          {filteredAndSortedTeam.map((user: IUser) => (
+            <User key={user.id} user={user} />
+          ))}
+          {noResults && <NotFound />}
+        </>
+      ) : (
+        [...new Array(6)].map((_, idx) => <Skeleton key={idx} />)
+      )}
     </div>
   );
 };

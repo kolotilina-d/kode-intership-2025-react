@@ -12,6 +12,7 @@ export const SearchInput: React.FC = () => {
   const openSort = () => {
     dispatch(modalsActions.openModal('sort'))
   };
+  
   return (
     <div className={cls.wrapper}>
       <title className={cls.title}>Поиск</title>

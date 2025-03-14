@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { IUser } from "../../../store/team/types/team-types";
 import cls from "./style.module.scss";
 
@@ -8,7 +9,7 @@ interface IProps {
 export const User: React.FC<IProps> = ({ user }) => {
 
   return (
-    <div className={cls.container}>
+    <Link to={`/details/${user.id}`} className={cls.container}>
       <img src={user.avatarUrl} alt="avatar" className={cls.avatar} />
       <div className={cls.wrapper}>
         <p className={cls.name}>
@@ -17,6 +18,6 @@ export const User: React.FC<IProps> = ({ user }) => {
         </p>
         <p className={cls.department}>{user.position}</p>
       </div>
-    </div>
+    </Link>
   );
 };
