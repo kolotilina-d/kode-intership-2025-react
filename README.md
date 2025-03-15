@@ -1,6 +1,8 @@
 # Тествое задания для KODE
 Колотилина Дарья
 
+ссылка на требования к заданию: https://github.com/appKODE/trainee-test-frontend/blob/main/README.md
+
 Декомпозиция и план выполнения:
 - Подготовка окружения
 
@@ -32,4 +34,4 @@
 Добавить ссылку в README.
 
 ## Ссылка на деплой: 
-
+https://kolotilina-d.github.io/kode-intership-2025-react/
