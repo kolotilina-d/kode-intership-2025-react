@@ -2,15 +2,17 @@ import { useState, useEffect, useMemo } from "react";
 import { useAppDispatch } from "../../../shared/hooks/use-app-dispatch";
 import { useAppSelector } from "../../../shared/hooks/use-app-selector";
 import { loadTeam } from "../../../store/team/services/load-team";
+import { NotFound } from "../../../shared/ui/not-found";
 import { IUser } from "../../../store/team/types/team-types";
 import { Skeleton } from "../../../widgets/sceleton";
 import { User } from "../../user";
 
 import cls from "./style.module.scss";
-import { NotFound } from "../../../shared/ui/not-found";
 
 export const Team: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [currentYearList, setCurrentYearList] = useState<IUser[]>([]);
+  const [nextYearList, setNextYearList] = useState<IUser[]>([]);
   const [noResults, setNoResults] = useState(false);
   const dispatch = useAppDispatch();
   const team = useAppSelector((state) => state.team.team.items);
@@ -42,9 +44,26 @@ export const Team: React.FC = () => {
       ) => {
         switch (sort) {
           case "По дню рождения":
-            return (
-              new Date(a.birthday).getTime() - new Date(b.birthday).getTime()
-            );
+            const currentYear = new Date().getFullYear();
+            if (sort === "По дню рождения") {
+              // Разделение на два массива
+              const thisYearBirthdays = filteredTeam.filter((user: IUser) => {
+                const birthdayDate = new Date(user.birthday);
+                birthdayDate.setFullYear(currentYear);
+                const today = new Date();
+                return birthdayDate >= today;
+              });
+
+              const nextYearBirthdays = filteredTeam.filter((user: IUser) => {
+                const birthdayDate = new Date(user.birthday);
+                birthdayDate.setFullYear(currentYear);
+                const today = new Date();
+                return birthdayDate < today;
+              });
+
+              setCurrentYearList(thisYearBirthdays);
+              setNextYearList(nextYearBirthdays);
+            }
           case "По алфавиту":
             return a.firstName.localeCompare(b.firstName);
           default:
@@ -62,7 +81,13 @@ export const Team: React.FC = () => {
 
   return (
     <div className={cls.list}>
-      {isLoading ? (
+      {currentYearList.length > 0 && sort === "По дню рождения" ? (
+        currentYearList.map((user: IUser) => (
+          <>
+            <User key={user.avatarUrl} user={user} />
+          </>
+        ))
+      ) : isLoading ? (
         <>
           {filteredAndSortedTeam.map((user: IUser) => (
             <User key={user.id} user={user} />
@@ -71,6 +96,14 @@ export const Team: React.FC = () => {
         </>
       ) : (
         [...new Array(6)].map((_, idx) => <Skeleton key={idx} />)
+      )}
+      {nextYearList.length > 0 && sort === "По дню рождения" && (
+        <>
+          <div className={cls.line}><p className={cls.date}>{new Date().getFullYear() + 1}</p></div>
+          {nextYearList.map((user) => (
+            <User key={user.id} user={user} />
+          ))}
+        </>
       )}
     </div>
   );

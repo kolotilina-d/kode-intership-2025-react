@@ -27,7 +27,7 @@ const Details: React.FC = () => {
 
     if (team) {
       const user: IUser = team.find((user: IUser) => user.id === id);
-      // ищем пользователя по id и отлавливаем ошибку
+      // ищем пользователя по id или отлавливаем ошибку
       if (user) {
         setUser(user);
       } else {
@@ -69,7 +69,13 @@ const Details: React.FC = () => {
           <div className={cls.item}>
             <div className={cls.leftside}>
               <img src={phone} alt="phone" className={cls.img} />
-              <p className={cls.text}>{user?.phone}</p>
+              <a
+                className={cls.text}
+                href={`tel:${user?.phone}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                {user?.phone}
+              </a>
             </div>
           </div>
         </div>

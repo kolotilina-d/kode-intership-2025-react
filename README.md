@@ -1,54 +1,35 @@
-# React + TypeScript + Vite
+# Тествое задания для KODE
+Колотилина Дарья
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Декомпозиция и план выполнения:
+- Подготовка окружения
 
-Currently, two official plugins are available:
+Создать репозиторий и Vite-проект.
+Установить зависимости.
+Настроить структуру проекта.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Работа с API:
 
-## Expanding the ESLint configuration
+Настроить Axios и функции для запросов.
+Проверить работу API.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Главная страница:
+Верстка главной страницы, основных компонентов (инпут для поиска, вкладки для фильтрации, список сотрудников)
+Создать layout с Top App Bar.
+Реализовать загрузку данных и состояния (загрузка/ошибка).
+Фильтрация. поиск и сортировка, состояние при неуспешном поиске
+Реализовать модальное окно сортировки.
+Навигация, добавить динамичский роутинг.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- Сверстать страницу с карточкой сотрудника.
+- Адаптивная вёрстка
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Сверстать интерфейс по Figma.
+Проверить адаптивность.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+Задепоить в GitHub Pages.
+Добавить ссылку в README.
+
+## Ссылка на деплой: 
+

@@ -32,3 +32,13 @@ export function declineYear(age: number): string {
     return 'лет';
   }
 }
+
+// форматируем дату в формат дд м
+export function formatBirthday(dateStr: string): string {
+  const date = new Date(dateStr);
+  const monthNames = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+  const day = date.getDate();
+  const month = monthNames[date.getMonth()];
+
+  return `${day} ${month}`;
+}
