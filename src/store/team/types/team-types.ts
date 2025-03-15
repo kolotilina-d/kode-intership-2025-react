@@ -9,5 +9,8 @@ export interface IUser {
   position: string,
   userTag: string,
 }
+export interface ITeam {
+  items: IUser[];
+}
 
 
