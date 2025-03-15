@@ -17,7 +17,7 @@ const Details: React.FC = () => {
   const [isNotFound, setIsNotFound] = useState(false);
   const dispatch = useAppDispatch();
   const team = useAppSelector((state) => state.team.team.items);
-  console.log(team);
+
   const onNavigate = () => {
     navigate("/");
   };
