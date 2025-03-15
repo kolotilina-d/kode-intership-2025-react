@@ -4,6 +4,7 @@ import path from 'path';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/kode-intership-2025-react/',
   plugins: [react()],
   resolve: {
     alias: {
