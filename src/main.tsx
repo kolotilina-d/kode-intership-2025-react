@@ -9,7 +9,7 @@ import "./shared/styles/normalize.scss";
 
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    <BrowserRouter basename="/kode-intership-2025-react/">
+    <BrowserRouter basename={process.env.NODE_ENV === 'production' ? '/kode-intership-2025-react' : '/'}>
       <App />
     </BrowserRouter>
   </Provider>
