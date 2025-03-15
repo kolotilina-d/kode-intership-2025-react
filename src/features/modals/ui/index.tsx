@@ -19,11 +19,11 @@ export const SortModal: React.FC<IProps> = () => {
       dispatch(modalsActions.closeModal());
     },
   };
-  const handleChoise = (item: string, idx: number) => {
+  const handleChoise = (item: string) => {
     dispatch(searchValueActions.setSelectedFilter(item));
-
     dispatch(modalsActions.closeModal());
   };
+
   useEffect(()=> {
     filter === "По дню рождения" ? setSelected(1): setSelected(0)
   }, [filter])
@@ -41,7 +41,7 @@ export const SortModal: React.FC<IProps> = () => {
               <button
                 key={item}
                 className={`${cls.btn} ${selected === idx ? cls.active : cls.inactive}`}
-                onClick={(idx) => handleChoise(item, Number(idx))}
+                onClick={() => handleChoise(item)}
               >
                 {item}
               </button>

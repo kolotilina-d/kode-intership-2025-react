@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { IUser } from "../../../store/team/types/team-types";
 import { useAppSelector } from "../../../shared/hooks/use-app-selector";
 import { formatBirthday } from "../../../shared/utils";
+import goose from '../../../shared/assets/images/goose.png';
 import cls from "./style.module.scss";
 
 interface IProps {
@@ -16,7 +17,7 @@ export const User: React.FC<IProps> = ({ user }) => {
     <>
       <div className={cls.item}>
         <Link to={`/details/${user.id}`} className={cls.container}>
-          <img src={user.avatarUrl} alt="avatar" className={cls.avatar} />
+          <img src={user.avatarUrl ? user.avatarUrl : goose} alt="avatar" className={cls.avatar} />
           <div className={cls.wrapper}>
             <p className={cls.name}>
               {user.firstName} {user.lastName}

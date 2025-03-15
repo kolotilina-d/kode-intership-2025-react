@@ -45,25 +45,33 @@ export const Team: React.FC = () => {
         switch (sort) {
           case "По дню рождения":
             const currentYear = new Date().getFullYear();
-            if (sort === "По дню рождения") {
-              // Разделение на два массива
-              const thisYearBirthdays = filteredTeam.filter((user: IUser) => {
-                const birthdayDate = new Date(user.birthday);
-                birthdayDate.setFullYear(currentYear);
-                const today = new Date();
-                return birthdayDate >= today;
-              });
+            const birthdayA = new Date(a.birthday);
+            birthdayA.setFullYear(currentYear);
+            const birthdayB = new Date(b.birthday);
+            birthdayB.setFullYear(currentYear);
+            const today = new Date();
 
-              const nextYearBirthdays = filteredTeam.filter((user: IUser) => {
-                const birthdayDate = new Date(user.birthday);
-                birthdayDate.setFullYear(currentYear);
-                const today = new Date();
-                return birthdayDate < today;
-              });
+            // Разделение на два массива
+            const thisYearBirthdays = filteredTeam.filter((user: IUser) => {
+              const birthdayDate = new Date(user.birthday);
+              birthdayDate.setFullYear(currentYear);
+              return birthdayDate >= today;
+            });
 
-              setCurrentYearList(thisYearBirthdays);
-              setNextYearList(nextYearBirthdays);
-            }
+            const nextYearBirthdays = filteredTeam.filter((user: IUser) => {
+              const birthdayDate = new Date(user.birthday);
+              birthdayDate.setFullYear(currentYear);
+              return birthdayDate < today;
+            });
+
+            setCurrentYearList(thisYearBirthdays);
+            setNextYearList(nextYearBirthdays);
+
+            // Сортировка по дню рождения
+            if (birthdayA < birthdayB) return -1;
+            if (birthdayA > birthdayB) return 1;
+            return 0;
+
           case "По алфавиту":
             return a.firstName.localeCompare(b.firstName);
           default:
@@ -99,9 +107,11 @@ export const Team: React.FC = () => {
       )}
       {nextYearList.length > 0 && sort === "По дню рождения" && (
         <>
-          <div className={cls.line}><p className={cls.date}>{new Date().getFullYear() + 1}</p></div>
+          <div className={cls.line}>
+            <p className={cls.date}>{new Date().getFullYear() + 1}</p>
+          </div>
           {nextYearList.map((user) => (
-            <User key={user.id} user={user} />
+            <User key={user.birthday} user={user} />
           ))}
         </>
       )}

@@ -26,7 +26,7 @@ const Details: React.FC = () => {
     dispatch(loadTeam({ type: "all" }));
 
     if (team) {
-      const user: IUser = team.find((user: IUser) => user.id === id);
+      const user = team.find((user: IUser) => user.id === id);
       // ищем пользователя по id или отлавливаем ошибку
       if (user) {
         setUser(user);

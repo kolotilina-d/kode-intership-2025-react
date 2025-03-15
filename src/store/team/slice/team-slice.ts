@@ -1,25 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IUser } from "../types/team-types";
+import { ITeam } from "../types/team-types";
 import { loadTeam } from "../services/load-team";
 
 interface IState {
-  team: IUser[];
+  team: ITeam;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: IState = {
-  team: [{
-    avatarUrl: '',
-    birthday: '',
-    department: '',
-    firstName: '',
-    id: '',
-    lastName: '',
-    phone: '',
-    position: '',
-    userTag: '',
-  }],
+  team: {
+    items: [{
+      avatarUrl: '',
+      birthday: '',
+      department: '',
+      firstName: '',
+      lastName: '',
+      id: '',
+      phone: '',
+      position: '',
+      userTag: '',
+    }],
+  },
   loading: false,
   error: null,
 }
@@ -37,7 +39,7 @@ const teamSlice = createSlice({
         state.error = null;
         state.loading = true;
       })
-      .addCase(loadTeam.fulfilled, (state, action: PayloadAction<IUser[]>) => {
+      .addCase(loadTeam.fulfilled, (state, action: PayloadAction<ITeam>) => {
         state.team = action.payload;
         state.loading = false;
         state.error = null;
