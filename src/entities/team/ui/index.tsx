@@ -25,7 +25,10 @@ export const Team: React.FC = () => {
   }, [type]);
 
   useEffect(() => {
-    if (team !== undefined) setIsLoading(true);
+    // даем время на подгрузку, в это время отображаем Sceleton
+    setTimeout(() => {
+      if (team !== undefined) setIsLoading(true);
+    }, 500);
   }, [team]);
 
   const filteredAndSortedTeam = useMemo(() => {

@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react-swc'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: process.env.NODE_ENV === 'production' ? '/kode-intership-2025-react/' : '/',
+  base: '/kode-intership-2025-react/',
 });
 
 
